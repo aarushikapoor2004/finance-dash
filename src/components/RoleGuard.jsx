@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, ShieldOff } from 'lucide-react';
+import { Lock, ShieldOff, Shield } from 'lucide-react';
 import useStore from '../store/store';
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -138,9 +138,10 @@ export default function RoleGuard({
 export function ViewerBadge() {
   const { role } = useStore();
   return (
-    <AnimatePresence>
-      {role === 'viewer' && (
+    <AnimatePresence mode="wait">
+      {role === 'viewer' ? (
         <motion.div
+          key="viewer"
           initial={{ opacity: 0, x: -8, scale: 0.9 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: -8, scale: 0.9 }}
@@ -153,7 +154,24 @@ export function ViewerBadge() {
           "
         >
           <ShieldOff className="w-3 h-3" />
-          View Only
+          Viewer Mode
+        </motion.div>
+      ) : (
+        <motion.div
+          key="admin"
+          initial={{ opacity: 0, x: -8, scale: 0.9 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: -8, scale: 0.9 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="
+            inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg
+            text-[10px] font-bold uppercase tracking-wider
+            bg-indigo-500/[0.10] text-indigo-400
+            border border-indigo-500/[0.18]
+          "
+        >
+          <Shield className="w-3 h-3" />
+          Admin Mode
         </motion.div>
       )}
     </AnimatePresence>

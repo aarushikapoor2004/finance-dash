@@ -160,11 +160,17 @@ function InsightMetricCard({ title, value, subtitle, badge, icon: Icon, colorKey
       initial={{ opacity: 0, y: 24, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, delay: delay * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 800 }}
+      style={{ 
+        rotateX, 
+        rotateY, 
+        transformStyle: 'preserve-3d', 
+        perspective: 800,
+        background: 'var(--bg-card)', 
+        border: '1px solid var(--border-card)'
+      }}
       className="group relative rounded-2xl p-5 flex flex-col overflow-hidden cursor-default
         backdrop-blur-md
         transition-[border-color,box-shadow,transform] duration-300 ease-out hover:-translate-y-1"
-      style={{ background: 'var(--bg-card)', border: '1px solid var(--border-card)' }}
       whileHover={{
         boxShadow: `0 0 0 1px ${theme.border}, 0 12px 40px -8px ${theme.glow}, 0 4px 16px rgba(0,0,0,0.3)`,
       }}

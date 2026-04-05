@@ -65,9 +65,10 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -20, scale: 0.97 }}
+      whileHover={{ y: -2, boxShadow: '0 8px 24px -8px rgba(0,0,0,0.15)' }}
       transition={{ duration: 0.3, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex items-center gap-4 px-4 py-3.5 rounded-xl
-        transition-colors duration-200"
+        transition-all duration-200"
       style={{ background: 'var(--hover-overlay)', border: '1px solid var(--border-subtle)' }}
     >
       {/* Category icon */}
@@ -83,9 +84,11 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
         <p className="text-[13px] font-semibold truncate leading-tight" style={{ color: 'var(--text-primary)' }}>
           {t.description}
         </p>
-        <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{t.category}</span>
-          <span className="w-1 h-1 rounded-full" style={{ background: 'var(--border-card)' }} />
+        <div className="flex items-center mt-1.5 gap-2">
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${meta.bg.replace('/15','/10')} border border-current/[0.15]`} style={{ color: `var(--color-${meta.text.split('-')[1]}-400)` }} >
+            <span className={meta.text}>{t.category}</span>
+          </span>
+          <span className="w-1 h-1 rounded-full" style={{ background: 'var(--border-subtle)' }} />
           <span className="text-[11px]" style={{ color: 'var(--text-dim)' }}>{fmtDate(t.date)}</span>
         </div>
       </div>
