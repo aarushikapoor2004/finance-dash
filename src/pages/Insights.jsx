@@ -162,8 +162,9 @@ function InsightMetricCard({ title, value, subtitle, badge, icon: Icon, colorKey
       transition={{ duration: 0.5, delay: delay * 0.1, ease: [0.22, 1, 0.36, 1] }}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 800 }}
       className="group relative rounded-2xl p-5 flex flex-col overflow-hidden cursor-default
-        border border-white/[0.06] bg-[rgba(15,20,40,0.60)] backdrop-blur-md
+        backdrop-blur-md
         transition-[border-color,box-shadow,transform] duration-300 ease-out hover:-translate-y-1"
+      style={{ background: 'var(--bg-card)', border: '1px solid var(--border-card)' }}
       whileHover={{
         boxShadow: `0 0 0 1px ${theme.border}, 0 12px 40px -8px ${theme.glow}, 0 4px 16px rgba(0,0,0,0.3)`,
       }}
@@ -199,14 +200,14 @@ function InsightMetricCard({ title, value, subtitle, badge, icon: Icon, colorKey
       </div>
 
       {/* Label */}
-      <p className="relative z-10 text-[12px] font-semibold uppercase tracking-[0.07em] text-surface-500 mb-1.5">
+      <p className="relative z-10 text-[12px] font-semibold uppercase tracking-[0.07em] mb-1.5" style={{ color: 'var(--text-muted)' }}>
         {title}
       </p>
 
       {/* Main value */}
       <motion.p
-        className="relative z-10 text-[26px] font-extrabold text-white tracking-tight leading-none"
-        style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.03em' }}
+        className="relative z-10 text-[26px] font-extrabold tracking-tight leading-none"
+        style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.03em', color: 'var(--text-primary)' }}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: delay * 0.1 + 0.18, duration: 0.4, ease: 'easeOut' }}
@@ -216,7 +217,7 @@ function InsightMetricCard({ title, value, subtitle, badge, icon: Icon, colorKey
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="relative z-10 text-[11px] text-surface-500 mt-1.5 font-medium">
+        <p className="relative z-10 text-[11px] mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>
           {subtitle}
         </p>
       )}
@@ -244,13 +245,15 @@ function InsightMetricCard({ title, value, subtitle, badge, icon: Icon, colorKey
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl border border-white/[0.08] bg-[rgba(10,15,30,0.95)] backdrop-blur-xl px-4 py-3 shadow-2xl">
-        <p className="text-xs font-bold text-white mb-1.5">{label}</p>
+      <div className="rounded-xl backdrop-blur-xl px-4 py-3 shadow-2xl"
+        style={{ background: 'var(--bg-tooltip)', border: '1px solid var(--border-card)' }}
+      >
+        <p className="text-xs font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>{label}</p>
         {payload.map((entry, i) => (
-          <p key={i} className="text-[11px] text-surface-400 flex items-center gap-2">
+          <p key={i} className="text-[11px] flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
             <span className="inline-block w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: entry.color }} />
-            <span className="text-surface-500">{entry.name}:</span>
-            <span className="text-white font-semibold">
+            <span style={{ color: 'var(--text-muted)' }}>{entry.name}:</span>
+            <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
               {typeof entry.value === 'number' && entry.value > 100
                 ? `$${entry.value.toLocaleString()}`
                 : `${entry.value}%`}
@@ -292,7 +295,8 @@ export default function Insights() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(15,20,40,0.55)] backdrop-blur-xl"
+        className="relative overflow-hidden rounded-2xl backdrop-blur-xl"
+        style={{ background: 'var(--bg-card-solid)', border: '1px solid var(--border-card)' }}
       >
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/[0.15] via-violet-600/[0.08] to-purple-800/[0.12]" />
@@ -324,7 +328,7 @@ export default function Insights() {
               </div>
 
               {/* Insight text */}
-              <p className="text-lg md:text-xl font-normal text-white/90 leading-relaxed">
+              <p className="text-lg md:text-xl font-normal leading-relaxed" style={{ color: 'var(--text-primary)', opacity: 0.9 }}>
                 Your{' '}
                 <span className="text-violet-300 font-bold">{highestCategory.name}</span>{' '}
                 spending accounts for{' '}
@@ -341,8 +345,12 @@ export default function Insights() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="flex-shrink-0 group/btn flex items-center gap-2 px-5 py-3 rounded-xl
-                bg-white/[0.07] hover:bg-white/[0.12] border border-white/[0.1] hover:border-white/[0.18]
-                text-white font-semibold text-sm backdrop-blur-md transition-all duration-200 shadow-lg"
+                font-semibold text-sm backdrop-blur-md transition-all duration-200 shadow-lg"
+              style={{
+                background: 'var(--btn-surface-bg)',
+                border: '1px solid var(--btn-surface-border)',
+                color: 'var(--btn-surface-text)'
+              }}
             >
               Review Budget
               <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
@@ -359,7 +367,7 @@ export default function Insights() {
       </motion.div>
 
       {/* ─────────────────────────── KEY METRICS (3 CARDS) ─────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
         {/* Card 1 — Highest Spending Category */}
         <InsightMetricCard
           title="Top Category"
@@ -410,7 +418,8 @@ export default function Insights() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`relative overflow-hidden rounded-2xl border ${smartConfig.border} bg-[rgba(15,20,40,0.50)] backdrop-blur-xl p-5`}
+        className={`relative overflow-hidden rounded-2xl border ${smartConfig.border} backdrop-blur-xl p-5`}
+        style={{ background: 'var(--bg-card)' }}
       >
         {/* Background gradient */}
         <div className={`absolute inset-0 bg-gradient-to-r ${smartConfig.gradient}`} />
@@ -424,46 +433,47 @@ export default function Insights() {
           {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
-              <h4 className="text-sm font-bold text-white">Smart Analysis</h4>
+              <h4 className="text-sm font-bold" style={{ color: 'var(--text-heading)' }}>Smart Analysis</h4>
               <span className={`text-[10px] font-bold uppercase tracking-wider ${smartConfig.labelColor}`}>
                 • {smartConfig.label}
               </span>
             </div>
-            <p className="text-sm text-surface-300 leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               {insights.smartMessage}
             </p>
           </div>
 
           {/* Decorative stat pills */}
           <div className="hidden lg:flex flex-shrink-0 items-center gap-2">
-            <div className="flex flex-col items-center px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-              <span className="text-[10px] text-surface-500 font-semibold uppercase tracking-wider">Expenses</span>
-              <span className="text-sm font-bold text-white mt-0.5">
+            <div className="flex flex-col items-center px-4 py-2 rounded-xl" style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-card)' }}>
+              <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Expenses</span>
+              <span className="text-sm font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>
                 {insights.expenseChange > 0 ? '+' : ''}{insights.expenseChange}%
               </span>
             </div>
-            <div className="flex flex-col items-center px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-              <span className="text-[10px] text-surface-500 font-semibold uppercase tracking-wider">Income</span>
-              <span className="text-sm font-bold text-white mt-0.5">
+            <div className="flex flex-col items-center px-4 py-2 rounded-xl" style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-card)' }}>
+              <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Income</span>
+              <span className="text-sm font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>
                 {insights.incomeChange > 0 ? '+' : ''}{insights.incomeChange}%
               </span>
             </div>
-            <div className="flex flex-col items-center px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-              <span className="text-[10px] text-surface-500 font-semibold uppercase tracking-wider">Txns</span>
-              <span className="text-sm font-bold text-white mt-0.5">{insights.transactionCount}</span>
+            <div className="flex flex-col items-center px-4 py-2 rounded-xl" style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-card)' }}>
+              <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Txns</span>
+              <span className="text-sm font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{insights.transactionCount}</span>
             </div>
           </div>
         </div>
       </motion.div>
 
       {/* ─────────────────────────── CHARTS ROW ─────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
         {/* Income vs Expenses */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(15,20,40,0.60)] backdrop-blur-md p-6"
+          className="relative overflow-hidden rounded-2xl backdrop-blur-md p-6"
+          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-card)' }}
         >
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-gradient-to-bl from-indigo-500/[0.06] to-transparent rounded-full blur-2xl pointer-events-none" />
 
@@ -473,15 +483,15 @@ export default function Insights() {
                 <BarChart3 className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white">Income vs Expenses</h3>
-                <p className="text-[11px] text-surface-500 mt-0.5">6-month comparison</p>
+                <h3 className="text-sm font-bold" style={{ color: 'var(--text-heading)' }}>Income vs Expenses</h3>
+                <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>6-month comparison</p>
               </div>
             </div>
             <div className="flex items-center gap-3 text-[11px]">
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
                 <span className="w-2 h-2 rounded-full bg-indigo-500" /> Income
               </span>
-              <span className="flex items-center gap-1.5 text-surface-400">
+              <span className="flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
                 <span className="w-2 h-2 rounded-full bg-violet-400" /> Expenses
               </span>
             </div>
@@ -489,9 +499,9 @@ export default function Insights() {
 
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={revenueData.slice(-6)}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff" opacity={0.04} vertical={false} />
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} dy={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v) => `$${v / 1000}k`} dx={-10} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-color)" vertical={false} />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-dim)', fontSize: 11 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-dim)', fontSize: 11 }} tickFormatter={(v) => `$${v / 1000}k`} dx={-10} />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(99,102,241,0.04)' }} />
               <Bar dataKey="income" name="Income" fill="#6366f1" radius={[6, 6, 0, 0]} maxBarSize={28} />
               <Bar dataKey="expenses" name="Expenses" fill="#a78bfa" radius={[6, 6, 0, 0]} maxBarSize={28} />
@@ -504,7 +514,8 @@ export default function Insights() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[rgba(15,20,40,0.60)] backdrop-blur-md p-6"
+          className="relative overflow-hidden rounded-2xl backdrop-blur-md p-6"
+          style={{ background: 'var(--bg-card)', border: '1px solid var(--border-card)' }}
         >
           <div className="absolute -top-16 -left-16 w-48 h-48 bg-gradient-to-br from-emerald-500/[0.06] to-transparent rounded-full blur-2xl pointer-events-none" />
 
@@ -514,11 +525,11 @@ export default function Insights() {
                 <CircleDollarSign className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white">Savings Trend</h3>
-                <p className="text-[11px] text-surface-500 mt-0.5">Monthly growth</p>
+                <h3 className="text-sm font-bold" style={{ color: 'var(--text-heading)' }}>Savings Trend</h3>
+                <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>Monthly growth</p>
               </div>
             </div>
-            <span className="flex items-center gap-1.5 text-[11px]">
+            <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--text-muted)' }}>
               <span className="w-2 h-2 rounded-full bg-emerald-500" /> Savings
             </span>
           </div>
@@ -531,9 +542,9 @@ export default function Insights() {
                   <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff" opacity={0.04} vertical={false} />
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} dy={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={(v) => `$${v / 1000}k`} dx={-10} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-color)" vertical={false} />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-dim)', fontSize: 11 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text-dim)', fontSize: 11 }} tickFormatter={(v) => `$${v / 1000}k`} dx={-10} />
               <Tooltip content={<CustomTooltip />} />
               <Area
                 type="monotone"

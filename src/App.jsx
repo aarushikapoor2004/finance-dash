@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
@@ -24,8 +25,18 @@ function App() {
   const { activePage, sidebarOpen } = useStore();
   const ActivePage = PAGES[activePage] || Dashboard;
 
+  // Track if we're on desktop to conditionally apply sidebar margin
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    setIsDesktop(mq.matches);
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   return (
-    <div className="min-h-screen" style={{ background: '#090e1a' }}>
+    <div className="min-h-screen" style={{ background: 'var(--bg-body)', transition: 'background 0.3s ease' }}>
 
       {/* ── Ambient gradient orbs ── */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none select-none" aria-hidden>
@@ -34,7 +45,7 @@ function App() {
           style={{
             width: 600, height: 600,
             top: -280, right: -180,
-            background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--gradient-orb-1) 0%, transparent 70%)',
           }}
         />
         <div
@@ -42,7 +53,7 @@ function App() {
           style={{
             width: 500, height: 500,
             top: '42%', left: -200,
-            background: 'radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--gradient-orb-2) 0%, transparent 70%)',
           }}
         />
         <div
@@ -50,7 +61,7 @@ function App() {
           style={{
             width: 400, height: 400,
             bottom: -180, right: '22%',
-            background: 'radial-gradient(circle, rgba(16,185,129,0.04) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--gradient-orb-3) 0%, transparent 70%)',
           }}
         />
       </div>
@@ -61,13 +72,13 @@ function App() {
       {/* ── Main content ── */}
       <motion.main
         initial={false}
-        animate={{ marginLeft: sidebarOpen ? 260 : 72 }}
+        animate={{ marginLeft: isDesktop ? (sidebarOpen ? 260 : 72) : 0 }}
         transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
         className="relative min-h-screen flex flex-col"
       >
         <Navbar />
 
-        <div className="flex-1 px-5 lg:px-8 py-5">
+        <div className="flex-1 px-3 sm:px-5 lg:px-8 py-4 sm:py-5">
           <AnimatePresence mode="wait">
             <motion.div key={activePage} {...pageMotion}>
               <ActivePage />

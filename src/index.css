@@ -11,6 +11,110 @@
     box-sizing: border-box;
   }
 
+  /* ─── Theme Variables (Dark — default) ─── */
+  :root {
+    --bg-body: #090e1a;
+    --bg-sidebar: #090e1a;
+    --bg-card: rgba(15, 20, 40, 0.60);
+    --bg-card-solid: rgba(15, 20, 40, 0.55);
+    --bg-surface: rgba(255, 255, 255, 0.03);
+    --bg-surface-hover: rgba(255, 255, 255, 0.06);
+    --bg-modal: rgba(9, 14, 26, 0.97);
+    --bg-navbar: rgba(9, 14, 26, 0.85);
+    --bg-tooltip: rgba(9, 14, 26, 0.95);
+    --border-subtle: rgba(255, 255, 255, 0.05);
+    --border-card: rgba(255, 255, 255, 0.06);
+    --border-input: rgba(255, 255, 255, 0.07);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-dim: #475569;
+    --text-heading: #ffffff;
+    --gradient-orb-1: rgba(99, 102, 241, 0.06);
+    --gradient-orb-2: rgba(139, 92, 246, 0.04);
+    --gradient-orb-3: rgba(16, 185, 129, 0.04);
+    --grid-color: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(99, 102, 241, 0.03);
+    --scrollbar-thumb: rgba(100, 116, 139, 0.15);
+    --scrollbar-hover: rgba(100, 116, 139, 0.3);
+    --btn-surface-bg: rgba(255, 255, 255, 0.03);
+    --btn-surface-hover: rgba(255, 255, 255, 0.07);
+    --btn-surface-border: rgba(255, 255, 255, 0.05);
+    --btn-surface-text: #94a3b8;
+    --btn-surface-text-hover: #e2e8f0;
+    --badge-bg: rgba(255, 255, 255, 0.05);
+    --badge-text: #94a3b8;
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
+    --toast-bg: rgba(9, 14, 26, 0.96);
+    --toast-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+    --kbd-bg: rgba(255, 255, 255, 0.04);
+    --kbd-border: rgba(255, 255, 255, 0.06);
+    --input-text: #ffffff;
+    --input-placeholder: #475569;
+    --ring-avatar: rgba(255, 255, 255, 0.08);
+    --status-ring: #090e1a;
+    --notif-dot-ring: #090e1a;
+    --pill-active-bg: linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.10) 100%);
+    --pill-active-border: rgba(99,102,241,0.22);
+    --hover-overlay: rgba(255, 255, 255, 0.03);
+    --table-border: rgba(255, 255, 255, 0.04);
+    --icon-income-bg: rgba(34, 197, 94, 0.1);
+    --icon-expense-bg: rgba(239, 68, 68, 0.1);
+    color-scheme: dark;
+  }
+
+  /* ─── Theme Variables (Light) ─── */
+  :root:not(.dark) {
+    --bg-body: #f1f5f9;
+    --bg-sidebar: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-solid: rgba(255, 255, 255, 0.90);
+    --bg-surface: rgba(0, 0, 0, 0.03);
+    --bg-surface-hover: rgba(0, 0, 0, 0.06);
+    --bg-modal: rgba(255, 255, 255, 0.97);
+    --bg-navbar: rgba(255, 255, 255, 0.88);
+    --bg-tooltip: rgba(255, 255, 255, 0.96);
+    --border-subtle: rgba(0, 0, 0, 0.07);
+    --border-card: rgba(0, 0, 0, 0.08);
+    --border-input: rgba(0, 0, 0, 0.12);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --text-heading: #0f172a;
+    --gradient-orb-1: rgba(99, 102, 241, 0.08);
+    --gradient-orb-2: rgba(139, 92, 246, 0.06);
+    --gradient-orb-3: rgba(16, 185, 129, 0.06);
+    --grid-color: rgba(0, 0, 0, 0.06);
+    --row-hover: rgba(99, 102, 241, 0.05);
+    --scrollbar-thumb: rgba(100, 116, 139, 0.25);
+    --scrollbar-hover: rgba(100, 116, 139, 0.4);
+    --btn-surface-bg: rgba(0, 0, 0, 0.04);
+    --btn-surface-hover: rgba(0, 0, 0, 0.08);
+    --btn-surface-border: rgba(0, 0, 0, 0.08);
+    --btn-surface-text: #475569;
+    --btn-surface-text-hover: #1e293b;
+    --badge-bg: rgba(0, 0, 0, 0.06);
+    --badge-text: #475569;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --toast-bg: rgba(255, 255, 255, 0.96);
+    --toast-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+    --kbd-bg: rgba(0, 0, 0, 0.05);
+    --kbd-border: rgba(0, 0, 0, 0.10);
+    --input-text: #0f172a;
+    --input-placeholder: #94a3b8;
+    --ring-avatar: rgba(0, 0, 0, 0.08);
+    --status-ring: #ffffff;
+    --notif-dot-ring: #ffffff;
+    --pill-active-bg: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.06) 100%);
+    --pill-active-border: rgba(99,102,241,0.18);
+    --hover-overlay: rgba(0, 0, 0, 0.03);
+    --table-border: rgba(0, 0, 0, 0.06);
+    --icon-income-bg: rgba(34, 197, 94, 0.12);
+    --icon-expense-bg: rgba(239, 68, 68, 0.12);
+    color-scheme: light;
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -19,9 +123,10 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #090e1a;
-    color: #f1f5f9;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* ─── Custom Scrollbar ─── */
@@ -35,12 +140,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(100, 116, 139, 0.15);
+    background: var(--scrollbar-thumb);
     border-radius: 999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 116, 139, 0.3);
+    background: var(--scrollbar-hover);
   }
 
   /* ─── Remove number spinners ─── */
@@ -55,8 +160,8 @@
 
   /* ─── Select styling ─── */
   select option {
-    background-color: #1e293b;
-    color: #f1f5f9;
+    background-color: var(--bg-modal);
+    color: var(--text-primary);
   }
 
   /* ─── Focus visible outlines ─── */
@@ -81,10 +186,10 @@
   /* Table row — used by TransactionTable */
   .table-row {
     @apply transition-all duration-200;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--table-border);
   }
   .table-row:hover {
-    background: rgba(99, 102, 241, 0.03);
+    background: var(--row-hover);
   }
 }
 
@@ -137,9 +242,9 @@
 /* ─── Recharts customizations ─── */
 .recharts-default-tooltip {
   @apply !rounded-xl !border-0;
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: var(--bg-tooltip) !important;
   backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: var(--card-shadow) !important;
 }
 
 .recharts-tooltip-item {

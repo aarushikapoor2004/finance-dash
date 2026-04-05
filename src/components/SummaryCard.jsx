@@ -113,13 +113,15 @@ function ChangeBadge({ change }) {
   const cls = isPositive
     ? 'bg-emerald-500/[0.10] text-emerald-400 border border-emerald-500/[0.18]'
     : isNeutral
-    ? 'bg-white/[0.05] text-surface-400 border border-white/[0.08]'
+    ? 'border'
     : 'bg-red-500/[0.10] text-red-400 border border-red-500/[0.18]';
+
+  const neutralStyle = isNeutral ? { background: 'var(--badge-bg)', color: 'var(--badge-text)', borderColor: 'var(--border-card)' } : {};
 
   const Icon = isPositive ? TrendingUp : isNeutral ? Minus : TrendingDown;
 
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold ${cls}`}>
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold ${cls}`} style={neutralStyle}>
       <Icon className="w-3 h-3" />
       {Math.abs(change)}%
     </span>
@@ -162,19 +164,20 @@ export default function SummaryCard({ title, value, change, icon: Icon, color = 
         rotateY,
         transformStyle: 'preserve-3d',
         perspective: 800,
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-card)',
+        transition: 'background 0.3s ease, border-color 0.3s ease',
       }}
       /* Hover lift via Tailwind group + CSS, glow via inline style on hover  */
       className="group relative rounded-2xl p-5 flex flex-col gap-0 overflow-hidden cursor-default
-        border border-white/[0.06]
-        bg-[rgba(15,20,40,0.60)]
         backdrop-blur-md
         transition-[border-color,box-shadow,transform] duration-300 ease-out
         hover:-translate-y-1
       "
+
       whileHover={{
         boxShadow: `0 0 0 1px ${theme.border}, 0 12px 40px -8px ${theme.glow}, 0 4px 16px rgba(0,0,0,0.3)`,
       }}
-      transition2={{ duration: 0.25 }}
     >
       {/* ── Ambient glow blob (top-right) ── */}
       <div
@@ -206,14 +209,14 @@ export default function SummaryCard({ title, value, change, icon: Icon, color = 
       </div>
 
       {/* ── Label ── */}
-      <p className="text-[12px] font-semibold uppercase tracking-[0.07em] text-surface-500 mb-1.5">
+      <p className="text-[12px] font-semibold uppercase tracking-[0.07em] mb-1.5" style={{ color: 'var(--text-muted)' }}>
         {title}
       </p>
 
       {/* ── Main value ── */}
       <motion.p
-        className="text-[26px] font-extrabold text-white tracking-tight leading-none"
-        style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.03em' }}
+        className="text-[26px] font-extrabold tracking-tight leading-none"
+        style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.03em', color: 'var(--text-primary)' }}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: delay * 0.08 + 0.18, duration: 0.4, ease: 'easeOut' }}
@@ -222,9 +225,11 @@ export default function SummaryCard({ title, value, change, icon: Icon, color = 
       </motion.p>
 
       {/* ── vs last month label ── */}
-      <p className="text-[11px] text-surface-600 mt-1 font-medium">
+      <p className="text-[11px] mt-1 font-medium" style={{ color: 'var(--text-dim)' }}>
         {change > 0 ? '▲' : change < 0 ? '▼' : '—'}&nbsp;
-        <span className={change > 0 ? 'text-emerald-500' : change < 0 ? 'text-red-500' : 'text-surface-500'}>
+        <span className={change > 0 ? 'text-emerald-500' : change < 0 ? 'text-red-500' : ''}
+          style={change === 0 ? { color: 'var(--text-muted)' } : {}}
+        >
           {Math.abs(change)}%
         </span>
         {' '}vs last month

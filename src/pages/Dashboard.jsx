@@ -17,8 +17,6 @@ import { GradientBar } from '../components/shared/GradientBar';
 import { revenueData } from '../data/mockData';
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
-const GRID_COLOR    = 'rgba(255,255,255,0.04)';
-const TICK_COLOR    = '#475569';
 const TICK_SIZE     = 11;
 const INCOME_COLOR  = '#6366f1';
 const EXPENSE_COLOR = '#8b5cf6';
@@ -29,11 +27,12 @@ const PIE_COLORS = [
   '#ec4899', '#64748b',
 ];
 
-const axisProps = {
+// We use a function to get current CSS variable values for charts
+const getAxisProps = () => ({
   axisLine: false,
   tickLine: false,
-  tick: { fill: TICK_COLOR, fontSize: TICK_SIZE, fontFamily: 'Inter, sans-serif' },
-};
+  tick: { fill: 'var(--text-dim)', fontSize: TICK_SIZE, fontFamily: 'Inter, sans-serif' },
+});
 
 // ─── Active Pie sector ────────────────────────────────────────────────────────
 function ActivePieShape(props) {
@@ -62,7 +61,7 @@ function ActivePieShape(props) {
         fill={fill}
         opacity={0.4}
       />
-      <text x={cx} y={cy - 10} textAnchor="middle" fill="#fff" fontSize={18} fontWeight={800} fontFamily="Inter, sans-serif">
+      <text x={cx} y={cy - 10} textAnchor="middle" fill="var(--text-primary)" fontSize={18} fontWeight={800} fontFamily="Inter, sans-serif">
         ${value.toLocaleString()}
       </text>
       <text x={cx} y={cy + 12} textAnchor="middle" fill="#475569" fontSize={11} fontFamily="Inter, sans-serif">
@@ -104,14 +103,14 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Summary cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {summaryCards.map((card, i) => (
           <SummaryCard key={card.title} {...card} delay={i} />
         ))}
       </div>
 
       {/* Row 1: Area chart + Donut */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
         {/* Area chart */}
         <ChartCard
           title="Revenue Overview"
@@ -139,12 +138,12 @@ export default function Dashboard() {
                   <stop offset="100%" stopColor={EXPENSE_COLOR} stopOpacity={0}    />
                 </linearGradient>
               </defs>
-              <CartesianGrid vertical={false} stroke={GRID_COLOR} />
-              <XAxis dataKey="month" {...axisProps} dy={8} />
-              <YAxis {...axisProps} dx={-4} tickFormatter={(v) => `$${v / 1000}k`} />
+              <CartesianGrid vertical={false} stroke="var(--grid-color)" />
+              <XAxis dataKey="month" {...getAxisProps()} dy={8} />
+              <YAxis {...getAxisProps()} dx={-4} tickFormatter={(v) => `$${v / 1000}k`} />
               <Tooltip
                 content={<ChartTooltip />}
-                cursor={{ stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1 }}
+                cursor={{ stroke: 'var(--border-card)', strokeWidth: 1 }}
               />
               <Area
                 type="monotoneX" dataKey="income" name="Income"
@@ -201,10 +200,10 @@ export default function Dashboard() {
                       className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-125"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-surface-500 group-hover:text-surface-300 transition-colors truncate">
+                    <span className="transition-colors truncate" style={{ color: 'var(--text-muted)' }}>
                       {item.name}
                     </span>
-                    <span className="text-surface-300 font-semibold ml-auto">
+                    <span className="font-semibold ml-auto" style={{ color: 'var(--text-secondary)' }}>
                       ${item.value.toLocaleString()}
                     </span>
                   </button>
@@ -220,26 +219,26 @@ export default function Dashboard() {
       </div>
 
       {/* Row 2: Bar chart + Recent transactions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
         {/* Bar chart — real weekly spending */}
         <ChartCard title="Weekly Spending" subtitle="Daily expense breakdown" delay={0.45}>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={weeklySpending} margin={{ top: 4, right: 4, left: -16, bottom: 0 }} barCategoryGap="35%">
-              <CartesianGrid vertical={false} stroke={GRID_COLOR} />
-              <XAxis dataKey="day" {...axisProps} dy={8} />
-              <YAxis {...axisProps} dx={-4} tickFormatter={(v) => `$${v}`} />
+              <CartesianGrid vertical={false} stroke="var(--grid-color)" />
+              <XAxis dataKey="day" {...getAxisProps()} dy={8} />
+              <YAxis {...getAxisProps()} dx={-4} tickFormatter={(v) => `$${v}`} />
               <Tooltip
                 content={<ChartTooltip />}
-                cursor={{ fill: 'rgba(255,255,255,0.03)', radius: 6 }}
+                cursor={{ fill: 'var(--hover-overlay)', radius: 6 }}
               />
               <Bar dataKey="amount" name="Spending" shape={<GradientBar />} maxBarSize={36} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
 
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.05]">
+          <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-surface-600 font-semibold">Weekly Total</p>
-              <p className="text-[18px] font-extrabold text-white mt-0.5">
+              <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-dim)' }}>Weekly Total</p>
+              <p className="text-[18px] font-extrabold mt-0.5" style={{ color: 'var(--text-primary)' }}>
                 ${weeklyTotal.toLocaleString()}
               </p>
             </div>

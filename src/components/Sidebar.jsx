@@ -3,35 +3,41 @@ import {
   LayoutDashboard, ArrowLeftRight, TrendingUp,
   ChevronLeft, Sparkles, Settings, HelpCircle,
 } from 'lucide-react';
+import { useEffect } from 'react';
 import useStore from '../store/store';
 
 // ─── Navigation Items ───────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { id: 'dashboard',     label: 'Dashboard',     icon: LayoutDashboard, shortcut: '1' },
-  { id: 'transactions',  label: 'Transactions',  icon: ArrowLeftRight,  shortcut: '2' },
-  { id: 'insights',      label: 'Insights',      icon: TrendingUp,      shortcut: '3' },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
+  { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight, shortcut: '2' },
+  { id: 'insights', label: 'Insights', icon: TrendingUp, shortcut: '3' },
 ];
 
 const BOTTOM_ITEMS = [
-  { id: 'settings', label: 'Settings',     icon: Settings   },
-  { id: 'help',     label: 'Help & Support', icon: HelpCircle },
+  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'help', label: 'Help & Support', icon: HelpCircle },
 ];
 
 // ─── Tooltip (collapsed state) ──────────────────────────────────────────────
 function NavTooltip({ label }) {
   return (
-    <div className="
-      absolute left-full ml-3 px-2.5 py-1.5 z-[60]
-      rounded-lg bg-surface-800 border border-white/[0.07]
-      text-xs font-medium text-white whitespace-nowrap
-      opacity-0 group-hover:opacity-100
-      pointer-events-none transition-opacity duration-150 shadow-xl
-    ">
+    <div
+      className="absolute left-full ml-3 px-2.5 py-1.5 z-[60] rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 shadow-xl"
+      style={{
+        background: 'var(--bg-tooltip)',
+        border: '1px solid var(--border-card)',
+        color: 'var(--text-heading)',
+      }}
+    >
       {label}
-      <div className="
-        absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[5px]
-        w-2.5 h-2.5 bg-surface-800 border-l border-b border-white/[0.07] rotate-45
-      " />
+      <div
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[5px] w-2.5 h-2.5 rotate-45"
+        style={{
+          background: 'var(--bg-tooltip)',
+          borderLeft: '1px solid var(--border-card)',
+          borderBottom: '1px solid var(--border-card)',
+        }}
+      />
     </div>
   );
 }
@@ -48,8 +54,8 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
         sidebar-nav-item group relative w-full flex items-center gap-3
         rounded-xl transition-colors duration-200
         ${sidebarOpen ? 'px-3 py-2.5' : 'px-0 py-2.5 justify-center'}
-        ${isActive ? 'text-white' : 'text-surface-400 hover:text-surface-200'}
       `}
+      style={{ color: isActive ? 'var(--text-heading)' : 'var(--btn-surface-text)' }}
     >
       {/* Active pill bg */}
       {isActive && (
@@ -57,8 +63,8 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
           layoutId="sidebar-pill"
           className="absolute inset-0 rounded-xl"
           style={{
-            background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.10) 100%)',
-            boxShadow: 'inset 0 0 0 1px rgba(99,102,241,0.22)',
+            background: 'var(--pill-active-bg)',
+            boxShadow: `inset 0 0 0 1px var(--pill-active-border)`,
           }}
           transition={{ type: 'spring', stiffness: 380, damping: 28 }}
         />
@@ -66,7 +72,9 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
 
       {/* Hover bg */}
       {!isActive && (
-        <div className="absolute inset-0 rounded-xl bg-white/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+          style={{ background: 'var(--hover-overlay)' }}
+        />
       )}
 
       {/* Left accent bar */}
@@ -81,7 +89,7 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
       {/* Icon */}
       <Icon className={`
         relative z-10 w-[18px] h-[18px] flex-shrink-0 transition-colors
-        ${isActive ? 'text-indigo-400' : 'group-hover:text-surface-200'}
+        ${isActive ? 'text-indigo-400' : ''}
       `} />
 
       {/* Label */}
@@ -106,8 +114,12 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
             initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.75 }}
-            className="relative z-10 text-[10px] font-semibold text-surface-500
-              bg-white/[0.05] px-1.5 py-0.5 rounded-md border border-white/[0.07]"
+            className="relative z-10 text-[10px] font-semibold px-1.5 py-0.5 rounded-md"
+            style={{
+              color: 'var(--text-muted)',
+              background: 'var(--kbd-bg)',
+              border: '1px solid var(--kbd-border)',
+            }}
           >
             ⌘{item.shortcut}
           </motion.kbd>
@@ -127,13 +139,15 @@ function BottomButton({ item, sidebarOpen }) {
     <button
       className={`
         group relative w-full flex items-center gap-3 rounded-xl
-        text-surface-500 hover:text-surface-300
         transition-colors duration-200
         ${sidebarOpen ? 'px-3 py-2' : 'px-0 py-2 justify-center'}
       `}
+      style={{ color: 'var(--text-muted)' }}
       title={!sidebarOpen ? item.label : undefined}
     >
-      <div className="absolute inset-0 rounded-xl bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{ background: 'var(--hover-overlay)' }}
+      />
       <Icon className="relative z-10 w-4 h-4 flex-shrink-0" />
       <AnimatePresence mode="wait">
         {sidebarOpen && (
@@ -156,39 +170,22 @@ function BottomButton({ item, sidebarOpen }) {
 // ─── Divider ────────────────────────────────────────────────────────────────
 function Divider() {
   return (
-    <div className="mx-3 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+    <div className="mx-3 h-px" style={{ background: `linear-gradient(to right, transparent, var(--border-card), transparent)` }} />
   );
 }
 
-// ─── Sidebar Root ───────────────────────────────────────────────────────────
-export default function Sidebar() {
-  const { activePage, setActivePage, sidebarOpen, toggleSidebar } = useStore();
-
+// ─── Sidebar Content (shared between desktop & mobile) ──────────────────────
+function SidebarContent({ sidebarOpen, activePage, setActivePage, toggleSidebar, onNavClick }) {
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width: sidebarOpen ? 260 : 72 }}
-      transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-      className="
-        fixed left-0 top-0 h-screen z-40 flex flex-col select-none
-        bg-[#090e1a] border-r border-white/[0.05]
-      "
-    >
+    <>
       {/* ── Logo ── */}
       <div className="flex items-center gap-3 px-4 h-[66px] flex-shrink-0">
-        {/* Logo mark */}
         <div className="relative flex-shrink-0">
           <div className="absolute -inset-1 rounded-[14px] bg-indigo-500/30 blur-md animate-pulse-slow" />
-          <div className="
-            relative w-9 h-9 rounded-[11px] flex items-center justify-center
-            bg-gradient-to-br from-indigo-500 to-violet-600
-            shadow-lg shadow-indigo-500/25
-          ">
+          <div className="relative w-9 h-9 rounded-[11px] flex items-center justify-center bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
         </div>
-
-        {/* Brand text */}
         <AnimatePresence mode="wait">
           {sidebarOpen && (
             <motion.div
@@ -198,8 +195,8 @@ export default function Sidebar() {
               transition={{ duration: 0.18 }}
               className="flex flex-col leading-tight min-w-0"
             >
-              <span className="text-[15px] font-bold text-white tracking-tight">Zorvyn</span>
-              <span className="text-[11px] text-surface-500 font-medium">Finance Suite</span>
+              <span className="text-[15px] font-bold tracking-tight" style={{ color: 'var(--text-heading)' }}>Zorvyn</span>
+              <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Finance Suite</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -215,7 +212,8 @@ export default function Sidebar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-[10px] font-semibold uppercase tracking-[0.1em] text-surface-600 px-3 mb-3"
+              className="text-[10px] font-semibold uppercase tracking-[0.1em] px-3 mb-3"
+              style={{ color: 'var(--text-dim)' }}
             >
               Main Menu
             </motion.p>
@@ -228,7 +226,7 @@ export default function Sidebar() {
             item={item}
             isActive={activePage === item.id}
             sidebarOpen={sidebarOpen}
-            onClick={() => setActivePage(item.id)}
+            onClick={() => { setActivePage(item.id); onNavClick?.(); }}
           />
         ))}
       </nav>
@@ -244,24 +242,15 @@ export default function Sidebar() {
 
       {/* ── User Profile + Collapse Toggle ── */}
       <div className="px-3 py-3 flex items-center gap-2.5">
-        {/* Avatar */}
         <div className="relative flex-shrink-0">
-          <div className="
-            w-8 h-8 rounded-[9px] flex items-center justify-center
-            bg-gradient-to-br from-indigo-500 to-violet-600
-            text-white text-[12px] font-bold shadow-md
-          ">
+          <div className="w-8 h-8 rounded-[9px] flex items-center justify-center bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-[12px] font-bold shadow-md">
             Z
           </div>
-          {/* Online dot */}
-          <span className="
-            absolute -bottom-0.5 -right-0.5
-            w-2.5 h-2.5 rounded-full bg-emerald-500
-            ring-2 ring-[#090e1a]
-          " />
+          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500"
+            style={{ boxShadow: `0 0 0 2px var(--status-ring)` }}
+          />
         </div>
 
-        {/* Name + Email */}
         <AnimatePresence mode="wait">
           {sidebarOpen && (
             <motion.div
@@ -271,26 +260,28 @@ export default function Sidebar() {
               transition={{ duration: 0.15 }}
               className="flex-1 min-w-0"
             >
-              <p className="text-[13px] font-semibold text-white truncate leading-tight">John Doe</p>
-              <p className="text-[11px] text-surface-500 truncate leading-tight">john@zorvyn.com</p>
+              <p className="text-[13px] font-semibold truncate leading-tight" style={{ color: 'var(--text-heading)' }}>Teja Reddy</p>
+              <p className="text-[11px] truncate leading-tight" style={{ color: 'var(--text-muted)' }}>Tejareddy@zorvyn.com</p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Collapse toggle */}
+        {/* Collapse toggle — only desktop */}
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={toggleSidebar}
           title={sidebarOpen ? 'Collapse' : 'Expand'}
           className={`
-            flex-shrink-0 p-1.5 rounded-lg
-            bg-white/[0.04] hover:bg-white/[0.08]
-            text-surface-500 hover:text-surface-300
-            border border-white/[0.05]
+            hidden md:flex flex-shrink-0 p-1.5 rounded-lg
             transition-all duration-200
             ${!sidebarOpen ? 'mx-auto' : ''}
           `}
+          style={{
+            background: 'var(--btn-surface-bg)',
+            border: '1px solid var(--btn-surface-border)',
+            color: 'var(--text-muted)',
+          }}
         >
           <motion.div
             animate={{ rotate: sidebarOpen ? 0 : 180 }}
@@ -300,6 +291,81 @@ export default function Sidebar() {
           </motion.div>
         </motion.button>
       </div>
-    </motion.aside>
+    </>
+  );
+}
+
+// ─── Sidebar Root ───────────────────────────────────────────────────────────
+export default function Sidebar() {
+  const { activePage, setActivePage, sidebarOpen, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useStore();
+
+  // Close mobile sidebar on window resize to desktop
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const handler = (e) => { if (e.matches) setMobileSidebarOpen(false); };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [setMobileSidebarOpen]);
+
+  return (
+    <>
+      {/* ═══ DESKTOP SIDEBAR (md+) ═══ */}
+      <motion.aside
+        initial={false}
+        animate={{ width: sidebarOpen ? 260 : 72 }}
+        transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+        className="hidden md:flex fixed left-0 top-0 h-screen z-40 flex-col select-none"
+        style={{
+          background: 'var(--bg-sidebar)',
+          borderRight: '1px solid var(--border-subtle)',
+          transition: 'background 0.3s ease',
+        }}
+      >
+        <SidebarContent
+          sidebarOpen={sidebarOpen}
+          activePage={activePage}
+          setActivePage={setActivePage}
+          toggleSidebar={toggleSidebar}
+        />
+      </motion.aside>
+
+      {/* ═══ MOBILE SIDEBAR DRAWER (<md) ═══ */}
+      <AnimatePresence>
+        {mobileSidebarOpen && (
+          <>
+            {/* Overlay backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileSidebarOpen(false)}
+              className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm md:hidden"
+            />
+
+            {/* Drawer panel */}
+            <motion.aside
+              initial={{ x: -280 }}
+              animate={{ x: 0 }}
+              exit={{ x: -280 }}
+              transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+              className="fixed left-0 top-0 h-screen w-[260px] z-[56] flex flex-col select-none md:hidden"
+              style={{
+                background: 'var(--bg-sidebar)',
+                borderRight: '1px solid var(--border-subtle)',
+              }}
+            >
+              <SidebarContent
+                sidebarOpen={true}
+                activePage={activePage}
+                setActivePage={setActivePage}
+                toggleSidebar={toggleSidebar}
+                onNavClick={() => setMobileSidebarOpen(false)}
+              />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

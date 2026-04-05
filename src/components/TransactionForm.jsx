@@ -107,14 +107,11 @@ function Field({ label, icon: Icon, error, index, children }) {
    INPUT STYLES
    ═══════════════════════════════════════════════════════════════════════════════ */
 const inputBase = `
-  w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white outline-none
-  border bg-white/[0.03]
-  placeholder:text-surface-600
-  focus:bg-white/[0.06]
-  transition-all duration-200
+  w-full px-3.5 py-2.5 rounded-xl text-[13px] outline-none
+  border transition-all duration-200
 `;
 
-const inputNormal = `${inputBase} border-white/[0.07] focus:border-indigo-500/50 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]`;
+const inputNormal = `${inputBase} focus:border-indigo-500/50 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]`;
 const inputError = `${inputBase} border-red-500/50 shadow-[0_0_0_3px_rgba(239,68,68,0.08)] focus:border-red-500/60 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.12)]`;
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -129,8 +126,8 @@ function TypeButton({ id, label, Icon, isActive, theme, onClick }) {
         relative flex-1 flex items-center justify-center gap-2
         py-2.5 rounded-xl text-[13px] font-semibold
         transition-all duration-250 overflow-hidden
-        ${isActive ? 'text-white' : 'text-surface-500 hover:text-surface-300'}
       `}
+      style={{ color: isActive ? 'var(--text-heading)' : 'var(--text-muted)' }}
     >
       {isActive && (
         <motion.div
@@ -180,12 +177,11 @@ function CategoryPicker({ value, onChange, accentColor }) {
         type="button"
         onClick={() => setOpen(v => !v)}
         className={`
-          w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13px] text-white
-          border border-white/[0.07] bg-white/[0.03]
-          hover:border-white/[0.12] hover:bg-white/[0.05]
+          w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13px]
+          border transition-all duration-200 text-left
           focus:border-indigo-500/50 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
-          transition-all duration-200 text-left
         `}
+        style={{ color: 'var(--input-text)', background: 'var(--bg-surface)', borderColor: 'var(--border-input)' }}
       >
         <div
           className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -215,9 +211,9 @@ function CategoryPicker({ value, onChange, accentColor }) {
             exit={{ opacity: 0, y: 6, scale: 0.97 }}
             transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
             className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-2xl
-              border border-white/[0.07] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+              border overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]
               max-h-[240px] overflow-y-auto scrollbar-none"
-            style={{ background: 'rgba(9,14,26,0.97)', backdropFilter: 'blur(40px)' }}
+            style={{ background: 'var(--bg-modal)', borderColor: 'var(--border-card)', backdropFilter: 'blur(40px)' }}
           >
             {categories.map((cat) => {
               const CI = CATEGORY_ICONS[cat] ?? CircleDot;
@@ -229,13 +225,13 @@ function CategoryPicker({ value, onChange, accentColor }) {
                   onClick={() => { onChange(cat); setOpen(false); }}
                   className={`
                     w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[12px]
-                    border-b border-white/[0.03] last:border-0
-                    transition-all duration-150
-                    ${isSelected
-                      ? 'bg-indigo-500/[0.10] text-white font-semibold'
-                      : 'text-surface-400 hover:text-surface-200 hover:bg-white/[0.04]'
-                    }
+                    border-b transition-all duration-150
+                    ${isSelected ? 'bg-indigo-500/[0.10] font-semibold' : ''}
                   `}
+                  style={{
+                    borderColor: 'var(--border-subtle)',
+                    color: isSelected ? 'var(--text-primary)' : 'var(--text-muted)'
+                  }}
                 >
                   <CI className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-indigo-400' : 'text-surface-500'}`} />
                   <span className="flex-1 text-left">{cat}</span>
@@ -275,7 +271,7 @@ function AmountInput({ value, onChange, error, type }) {
         onChange={(e) => onChange(e.target.value)}
         placeholder="0.00"
         className={`${error ? inputError : inputNormal} pl-8 pr-24 text-[15px] font-bold tracking-tight`}
-        style={{ fontVariantNumeric: 'tabular-nums' }}
+        style={{ fontVariantNumeric: 'tabular-nums', color: 'var(--input-text)', background: 'var(--bg-surface)', borderColor: 'var(--border-input)' }}
       />
 
       {/* Live preview badge */}
@@ -433,12 +429,10 @@ export default function TransactionForm() {
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-[440px] rounded-3xl overflow-hidden"
               style={{
-                background: 'rgba(9,14,26,0.97)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--bg-modal)',
+                border: '1px solid var(--border-card)',
                 boxShadow: `
-                  0 40px 100px rgba(0,0,0,0.65),
-                  0 0 0 1px rgba(255,255,255,0.04) inset,
-                  0 -1px 0 rgba(255,255,255,0.03) inset,
+                  0 40px 100px rgba(0,0,0,0.3),
                   0 0 80px ${theme.ring}
                 `,
               }}
@@ -483,10 +477,10 @@ export default function TransactionForm() {
                     </div>
 
                     <div>
-                      <h3 className="text-[16px] font-bold text-white tracking-tight">
+                      <h3 className="text-[16px] font-bold tracking-tight" style={{ color: 'var(--text-heading)' }}>
                         {isEditing ? 'Edit Transaction' : 'New Transaction'}
                       </h3>
-                      <p className="text-[11px] text-surface-500 mt-0.5">
+                      <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
                         {isEditing ? 'Update the details below' : 'Add a new income or expense record'}
                       </p>
                     </div>
@@ -497,7 +491,8 @@ export default function TransactionForm() {
                     whileTap={{ scale: 0.9 }}
                     transition={{ duration: 0.2 }}
                     onClick={closeTransactionForm}
-                    className="p-2 rounded-xl bg-white/[0.04] text-surface-400 hover:text-white border border-white/[0.05] transition-colors"
+                    className="p-2 rounded-xl transition-colors"
+                    style={{ background: 'var(--btn-surface-bg)', color: 'var(--text-muted)', border: '1px solid var(--btn-surface-border)' }}
                   >
                     <X className="w-4 h-4" />
                   </motion.button>
@@ -511,8 +506,8 @@ export default function TransactionForm() {
                     variants={fieldVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex rounded-2xl p-1.5 gap-1 border border-white/[0.06]"
-                    style={{ background: 'rgba(255,255,255,0.025)' }}
+                    className="flex rounded-2xl p-1.5 gap-1 border"
+                    style={{ background: 'var(--bg-surface)', borderColor: 'var(--border-subtle)' }}
                   >
                     <TypeButton
                       id="income"
@@ -542,6 +537,7 @@ export default function TransactionForm() {
                       placeholder="e.g. Monthly salary, Grocery run…"
                       maxLength={100}
                       className={errors.description ? inputError : inputNormal}
+                      style={{ color: 'var(--input-text)', background: 'var(--bg-surface)', borderColor: 'var(--border-input)' }}
                     />
                   </Field>
 
@@ -556,7 +552,7 @@ export default function TransactionForm() {
                   </Field>
 
                   {/* ── Category + Date row ── */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Field label="Category" icon={Tag} error={null} index={3}>
                       <CategoryPicker
                         value={form.category}
@@ -571,6 +567,7 @@ export default function TransactionForm() {
                         value={form.date}
                         onChange={(e) => set('date', e.target.value)}
                         className={errors.date ? inputError : inputNormal}
+                        style={{ color: 'var(--input-text)', background: 'var(--bg-surface)', borderColor: 'var(--border-input)' }}
                       />
                     </Field>
                   </div>
@@ -581,7 +578,8 @@ export default function TransactionForm() {
                     variants={fieldVariants}
                     initial="hidden"
                     animate="visible"
-                    className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent"
+                    className="h-px w-full"
+                    style={{ background: 'linear-gradient(to right, transparent, var(--border-subtle), transparent)' }}
                   />
 
                   {/* ── Actions ── */}
@@ -590,13 +588,14 @@ export default function TransactionForm() {
                       type="button"
                       onClick={closeTransactionForm}
                       className="
-                        flex-1 py-2.5 rounded-xl text-[13px] font-semibold
-                        text-surface-400 hover:text-surface-200
-                        border border-white/[0.07] hover:border-white/[0.14]
-                        bg-white/[0.03] hover:bg-white/[0.06]
-                        active:scale-[0.98]
-                        transition-all duration-200
+                        flex-1 py-2.5 rounded-xl text-[13px] font-semibold border
+                        active:scale-[0.98] transition-all duration-200
                       "
+                      style={{
+                        background: 'var(--btn-surface-bg)',
+                        color: 'var(--text-muted)',
+                        borderColor: 'var(--border-subtle)',
+                      }}
                     >
                       Cancel
                     </button>
@@ -662,9 +661,10 @@ export default function TransactionForm() {
                     variants={fieldVariants}
                     initial="hidden"
                     animate="visible"
-                    className="text-center text-[10px] text-surface-600 pt-1"
+                    className="text-center text-[10px] pt-1"
+                    style={{ color: 'var(--text-dim)' }}
                   >
-                    Press <kbd className="px-1.5 py-0.5 rounded-md bg-white/[0.05] text-surface-500 font-semibold border border-white/[0.06] text-[10px]">ESC</kbd> to close
+                    Press <kbd className="px-1.5 py-0.5 rounded-md font-semibold border text-[10px]" style={{ background: 'var(--kbd-bg)', borderColor: 'var(--kbd-border)' }}>ESC</kbd> to close
                   </motion.p>
                 </form>
               </div>

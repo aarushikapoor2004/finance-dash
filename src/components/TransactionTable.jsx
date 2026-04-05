@@ -19,13 +19,13 @@ export default function TransactionTable({ transactions, showActions = true }) {
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
-          <tr className="border-b border-slate-200 dark:border-surface-700">
-            <th className="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Transaction</th>
-            <th className="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Category</th>
-            <th className="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-            <th className="px-4 py-3.5 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
+          <tr style={{ borderBottom: '1px solid var(--border-card)' }}>
+            <th className="px-3 sm:px-4 py-3 sm:py-3.5 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Transaction</th>
+            <th className="hidden sm:table-cell px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Category</th>
+            <th className="hidden md:table-cell px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Date</th>
+            <th className="px-3 sm:px-4 py-3 sm:py-3.5 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Amount</th>
             {showActions && isAdmin && (
-              <th className="px-4 py-3.5 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+              <th className="px-3 sm:px-4 py-3 sm:py-3.5 text-right text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Actions</th>
             )}
           </tr>
         </thead>
@@ -40,27 +40,30 @@ export default function TransactionTable({ transactions, showActions = true }) {
                 transition={{ duration: 0.2, delay: i * 0.03 }}
                 className="table-row"
               >
-                <td className="px-4 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      t.type === 'income' 
-                        ? 'bg-success-50 dark:bg-success-500/10 text-success-500' 
-                        : 'bg-danger-50 dark:bg-danger-500/10 text-danger-500'
-                    }`}>
+                <td className="px-3 sm:px-4 py-3 sm:py-4">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      t.type === 'income' ? 'text-success-500' : 'text-danger-500'
+                    }`}
+                      style={{ background: t.type === 'income' ? 'var(--icon-income-bg)' : 'var(--icon-expense-bg)' }}
+                    >
                       {t.type === 'income' ? <ArrowDownLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                     </div>
-                    <span className="text-sm font-medium text-slate-900 dark:text-white">{t.description}</span>
+                    <div className="min-w-0">
+                      <span className="text-sm font-medium block truncate" style={{ color: 'var(--text-primary)' }}>{t.description}</span>
+                      <span className="sm:hidden text-[11px]" style={{ color: 'var(--text-muted)' }}>{t.category}</span>
+                    </div>
                   </div>
                 </td>
-                <td className="px-4 py-4">
-                  <span className="badge bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400">
+                <td className="hidden sm:table-cell px-4 py-4">
+                  <span className="badge" style={{ background: 'var(--badge-bg)', color: 'var(--badge-text)' }}>
                     {t.category}
                   </span>
                 </td>
-                <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+                <td className="hidden md:table-cell px-4 py-4 text-sm" style={{ color: 'var(--text-muted)' }}>
                   {formatDate(t.date)}
                 </td>
-                <td className={`px-4 py-4 text-sm font-semibold text-right ${
+                <td className={`px-3 sm:px-4 py-3 sm:py-4 text-sm font-semibold text-right ${
                   t.type === 'income' ? 'text-success-500' : 'text-danger-500'
                 }`}>
                   {t.type === 'income' ? '+' : ''}{formatCurrency(t.amount)}
@@ -72,7 +75,10 @@ export default function TransactionTable({ transactions, showActions = true }) {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => openTransactionForm(t)}
-                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-primary-500 transition-colors"
+                        className="p-2 rounded-lg transition-colors"
+                        style={{ color: 'var(--text-muted)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--hover-overlay)'; e.currentTarget.style.color = '#6366f1'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
                       >
                         <Edit3 className="w-4 h-4" />
                       </motion.button>
@@ -80,7 +86,10 @@ export default function TransactionTable({ transactions, showActions = true }) {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => deleteTransaction(t.id)}
-                        className="p-2 rounded-lg hover:bg-danger-50 dark:hover:bg-danger-500/10 text-slate-400 hover:text-danger-500 transition-colors"
+                        className="p-2 rounded-lg transition-colors"
+                        style={{ color: 'var(--text-muted)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--icon-expense-bg)'; e.currentTarget.style.color = '#ef4444'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
                       >
                         <Trash2 className="w-4 h-4" />
                       </motion.button>

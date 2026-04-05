@@ -44,9 +44,9 @@ export default function ToastContainer() {
               className="pointer-events-auto relative flex items-center gap-3 pr-10 pl-4 py-3.5
                 rounded-2xl overflow-hidden min-w-[280px] max-w-[340px]"
               style={{
-                background: 'rgba(9,14,26,0.96)',
+                background: 'var(--toast-bg)',
                 border: `1px solid ${cfg.border}`,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3)',
+                boxShadow: 'var(--toast-shadow)',
                 backdropFilter: 'blur(24px)',
               }}
             >
@@ -57,7 +57,7 @@ export default function ToastContainer() {
               <Icon className={`w-[18px] h-[18px] flex-shrink-0 ${cfg.icon_cls}`} />
 
               {/* Message */}
-              <span className="text-[13px] font-medium text-white leading-snug flex-1">
+              <span className="text-[13px] font-medium leading-snug flex-1" style={{ color: 'var(--text-primary)' }}>
                 {toast.message}
               </span>
 
@@ -66,10 +66,8 @@ export default function ToastContainer() {
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => removeToast(toast.id)}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2
-                  p-1 rounded-lg hover:bg-white/[0.08]
-                  text-surface-500 hover:text-surface-300
-                  transition-colors duration-150"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-colors duration-150"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <X className="w-3.5 h-3.5" />
               </motion.button>

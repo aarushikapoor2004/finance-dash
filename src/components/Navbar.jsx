@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Moon, Sun, Shield, Eye, Bell, Command, Plus, X, Lock } from 'lucide-react';
+import { Search, Moon, Sun, Shield, Eye, Bell, Command, Plus, X, Lock, Menu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../store/store';
 import { ViewerBadge } from './RoleGuard';
@@ -26,17 +26,18 @@ function NotificationPanel({ onClose }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 8, scale: 0.96 }}
       transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
-      className="
-        absolute right-0 top-full mt-2 w-80 z-50
-        rounded-2xl border border-white/[0.07] overflow-hidden
-        shadow-[0_24px_60px_rgba(0,0,0,0.5)]
-      "
-      style={{ background: 'rgba(9,14,26,0.97)', backdropFilter: 'blur(40px)' }}
+      className="absolute right-0 top-full mt-2 w-80 z-50 rounded-2xl overflow-hidden"
+      style={{
+        background: 'var(--bg-modal)',
+        border: '1px solid var(--border-card)',
+        backdropFilter: 'blur(40px)',
+        boxShadow: 'var(--toast-shadow)',
+      }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-4 py-3.5" style={{ borderBottom: '1px solid var(--border-card)' }}>
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-white">Notifications</span>
+          <span className="text-[13px] font-semibold" style={{ color: 'var(--text-heading)' }}>Notifications</span>
           <span className="
             px-1.5 py-0.5 rounded-md text-[10px] font-bold
             bg-indigo-500/15 text-indigo-400 border border-indigo-500/20
@@ -46,7 +47,8 @@ function NotificationPanel({ onClose }) {
         </div>
         <button
           onClick={onClose}
-          className="p-1 rounded-lg hover:bg-white/[0.06] text-surface-500 hover:text-surface-300 transition-colors"
+          className="p-1 rounded-lg transition-colors"
+          style={{ color: 'var(--text-muted)' }}
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -57,24 +59,25 @@ function NotificationPanel({ onClose }) {
         {NOTIFICATIONS.map((n, i) => (
           <div
             key={n.id}
-            className={`
-              flex items-start gap-3 px-4 py-3.5 cursor-pointer
-              hover:bg-white/[0.03] transition-colors
-              ${i < NOTIFICATIONS.length - 1 ? 'border-b border-white/[0.04]' : ''}
-            `}
+            className="flex items-start gap-3 px-4 py-3.5 cursor-pointer transition-colors"
+            style={{
+              borderBottom: i < NOTIFICATIONS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--hover-overlay)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           >
             <div className={`w-2 h-2 mt-[5px] rounded-full flex-shrink-0 ${n.dot}`} />
             <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold text-white">{n.title}</p>
-              <p className="text-[11px] text-surface-500 mt-0.5">{n.desc}</p>
+              <p className="text-[12px] font-semibold" style={{ color: 'var(--text-heading)' }}>{n.title}</p>
+              <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{n.desc}</p>
             </div>
-            <span className="text-[10px] text-surface-600 flex-shrink-0 mt-0.5">{n.time} ago</span>
+            <span className="text-[10px] flex-shrink-0 mt-0.5" style={{ color: 'var(--text-dim)' }}>{n.time} ago</span>
           </div>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-2.5 border-t border-white/[0.05]">
+      <div className="px-4 py-2.5" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <button className="w-full text-center text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors py-0.5">
           View all notifications →
         </button>
@@ -85,7 +88,7 @@ function NotificationPanel({ onClose }) {
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 export default function Navbar() {
-  const { theme, toggleTheme, role, setRole, activePage, openTransactionForm, isAdmin, addToast } = useStore();
+  const { theme, toggleTheme, role, setRole, activePage, openTransactionForm, isAdmin, addToast, setMobileSidebarOpen } = useStore();
   const [searchFocused, setSearchFocused]       = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const searchRef = useRef(null);
@@ -121,33 +124,47 @@ export default function Navbar() {
       initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-      className="
-        sticky top-0 z-30 flex items-center justify-between
-        px-6 lg:px-8 h-[66px]
-        border-b border-white/[0.05]
-      "
+      className="sticky top-0 z-30 flex items-center justify-between px-3 sm:px-6 lg:px-8 h-[56px] md:h-[66px]"
       style={{
-        background: 'rgba(9,14,26,0.85)',
+        background: 'var(--bg-navbar)',
         backdropFilter: 'blur(40px) saturate(1.8)',
+        borderBottom: '1px solid var(--border-subtle)',
+        transition: 'background 0.3s ease',
       }}
     >
-      {/* ── Left: Page context ── */}
-      <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-          <h2 className="text-[16px] font-bold text-white tracking-tight">{meta.title}</h2>
+      {/* ── Left: Hamburger + Page context ── */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        {/* Mobile hamburger */}
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setMobileSidebarOpen(true)}
+          className="md:hidden p-2 -ml-1 rounded-xl transition-all duration-200 flex-shrink-0"
+          style={{
+            background: 'var(--btn-surface-bg)',
+            border: '1px solid var(--btn-surface-border)',
+            color: 'var(--btn-surface-text)',
+          }}
+        >
+          <Menu className="w-[18px] h-[18px]" />
+        </motion.button>
 
-          {/* Live indicator — Dashboard only */}
-          {activePage === 'dashboard' && (
-            <span className="relative flex h-1.5 w-1.5 ml-0.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-            </span>
-          )}
+        <div className="flex flex-col min-w-0">
+          <div className="flex items-center gap-2">
+            <h2 className="text-[14px] sm:text-[16px] font-bold tracking-tight truncate" style={{ color: 'var(--text-primary)' }}>{meta.title}</h2>
 
-          {/* Viewer badge */}
-          <ViewerBadge />
+            {/* Live indicator — Dashboard only */}
+            {activePage === 'dashboard' && (
+              <span className="relative flex h-1.5 w-1.5 ml-0.5 flex-shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              </span>
+            )}
+
+            {/* Viewer badge */}
+            <ViewerBadge />
+          </div>
+          <p className="hidden sm:block text-[11px] font-medium mt-0.5 leading-tight" style={{ color: 'var(--text-muted)' }}>{meta.subtitle}</p>
         </div>
-        <p className="text-[11px] text-surface-500 font-medium mt-0.5 leading-tight">{meta.subtitle}</p>
       </div>
 
       {/* ── Right: Actions ── */}
@@ -158,34 +175,33 @@ export default function Navbar() {
           <motion.div
             animate={{
               width: searchFocused ? 260 : 188,
-              borderColor: searchFocused ? 'rgba(99,102,241,0.45)' : 'rgba(255,255,255,0.06)',
+              borderColor: searchFocused ? 'rgba(99,102,241,0.45)' : 'var(--btn-surface-border)',
             }}
             transition={{ duration: 0.22 }}
-            className="
-              flex items-center gap-2 px-3 py-2
-              rounded-xl bg-white/[0.04] border transition-shadow
-            "
-            style={searchFocused ? { boxShadow: '0 0 0 3px rgba(99,102,241,0.12)' } : {}}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl border transition-shadow"
+            style={{
+              background: 'var(--btn-surface-bg)',
+              boxShadow: searchFocused ? '0 0 0 3px rgba(99,102,241,0.12)' : 'none',
+            }}
           >
-            <Search className="w-3.5 h-3.5 text-surface-500 flex-shrink-0" />
+            <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--text-muted)' }} />
             <input
               ref={searchRef}
               type="text"
               placeholder="Search..."
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className="
-                bg-transparent text-[13px] text-white
-                placeholder-surface-600 outline-none w-full
-              "
+              className="bg-transparent text-[13px] outline-none w-full"
+              style={{ color: 'var(--input-text)', '::placeholder': { color: 'var(--input-placeholder)' } }}
             />
             {!searchFocused && (
-              <kbd className="
-                hidden lg:flex items-center gap-0.5
-                text-[10px] text-surface-600 font-semibold
-                bg-white/[0.04] px-1.5 py-0.5
-                rounded-md border border-white/[0.06] flex-shrink-0
-              ">
+              <kbd className="hidden lg:flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-md flex-shrink-0"
+                style={{
+                  color: 'var(--text-dim)',
+                  background: 'var(--kbd-bg)',
+                  border: '1px solid var(--kbd-border)',
+                }}
+              >
                 <Command className="w-2.5 h-2.5" />K
               </kbd>
             )}
@@ -229,20 +245,17 @@ export default function Navbar() {
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.93 }}
             onClick={() => setShowNotifications((v) => !v)}
-            className="
-              relative p-2 rounded-xl
-              bg-white/[0.03] hover:bg-white/[0.07]
-              border border-white/[0.05]
-              text-surface-400 hover:text-surface-200
-              transition-all duration-200
-            "
+            className="relative p-2 rounded-xl transition-all duration-200"
+            style={{
+              background: 'var(--btn-surface-bg)',
+              border: '1px solid var(--btn-surface-border)',
+              color: 'var(--btn-surface-text)',
+            }}
           >
             <Bell className="w-[17px] h-[17px]" />
-            <span className="
-              absolute top-[7px] right-[7px]
-              w-1.5 h-1.5 rounded-full bg-red-500
-              ring-[1.5px] ring-[#090e1a]
-            " />
+            <span className="absolute top-[7px] right-[7px] w-1.5 h-1.5 rounded-full bg-red-500"
+              style={{ boxShadow: `0 0 0 1.5px var(--notif-dot-ring)` }}
+            />
           </motion.button>
 
           <AnimatePresence>
@@ -258,13 +271,12 @@ export default function Navbar() {
           whileTap={{ scale: 0.93, rotate: 20 }}
           onClick={toggleTheme}
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          className="
-            p-2 rounded-xl
-            bg-white/[0.03] hover:bg-white/[0.07]
-            border border-white/[0.05]
-            text-surface-400 hover:text-surface-200
-            transition-all duration-200
-          "
+          className="p-2 rounded-xl transition-all duration-200"
+          style={{
+            background: 'var(--btn-surface-bg)',
+            border: '1px solid var(--btn-surface-border)',
+            color: 'var(--btn-surface-text)',
+          }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -283,11 +295,12 @@ export default function Navbar() {
         </motion.button>
 
         {/* ── Role Switcher ── */}
-        <div className="
-          hidden lg:flex items-center
-          rounded-xl p-0.5 gap-0.5
-          bg-white/[0.04] border border-white/[0.05]
-        ">
+        <div className="hidden lg:flex items-center rounded-xl p-0.5 gap-0.5"
+          style={{
+            background: 'var(--btn-surface-bg)',
+            border: '1px solid var(--btn-surface-border)',
+          }}
+        >
           {/* Admin */}
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -296,8 +309,9 @@ export default function Navbar() {
               relative flex items-center gap-1.5 px-2.5 py-[6px]
               rounded-[9px] text-[11px] font-semibold
               transition-colors duration-200
-              ${role === 'admin' ? 'text-indigo-400' : 'text-surface-500 hover:text-surface-300'}
+              ${role === 'admin' ? 'text-indigo-400' : ''}
             `}
+            style={role !== 'admin' ? { color: 'var(--text-muted)' } : {}}
           >
             {role === 'admin' && (
               <motion.div
@@ -318,8 +332,9 @@ export default function Navbar() {
               relative flex items-center gap-1.5 px-2.5 py-[6px]
               rounded-[9px] text-[11px] font-semibold
               transition-colors duration-200
-              ${role === 'viewer' ? 'text-violet-400' : 'text-surface-500 hover:text-surface-300'}
+              ${role === 'viewer' ? 'text-violet-400' : ''}
             `}
+            style={role !== 'viewer' ? { color: 'var(--text-muted)' } : {}}
           >
             {role === 'viewer' && (
               <motion.div
@@ -343,8 +358,8 @@ export default function Navbar() {
               flex items-center justify-center
               text-white text-[12px] font-bold
               shadow-lg shadow-indigo-500/20
-              ring-1 ring-white/[0.08]
             "
+            style={{ boxShadow: `0 4px 14px rgba(99,102,241,0.2), 0 0 0 1px var(--ring-avatar)` }}
           >
             Z
           </motion.div>

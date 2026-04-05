@@ -96,7 +96,7 @@ export default function RoleGuard({
                 rounded-2xl cursor-not-allowed
               "
               style={{
-                background: 'rgba(9,14,26,0.75)',
+                background: 'var(--bg-modal)',
                 backdropFilter: 'blur(6px)',
               }}
             >
@@ -110,15 +110,15 @@ export default function RoleGuard({
                 <div className="relative mb-3">
                   <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-xl animate-pulse-slow" />
                   <div
-                    className="relative w-12 h-12 rounded-xl flex items-center justify-center border border-white/[0.08]"
-                    style={{ background: 'rgba(99,102,241,0.12)' }}
+                    className="relative w-12 h-12 rounded-xl flex items-center justify-center"
+                    style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid var(--border-card)' }}
                   >
                     <Lock className="w-5 h-5 text-indigo-400" />
                   </div>
                 </div>
 
-                <p className="text-[13px] font-semibold text-white mb-1">{message}</p>
-                <p className="text-[11px] text-surface-500 max-w-[200px] leading-relaxed">
+                <p className="text-[13px] font-semibold mb-1" style={{ color: 'var(--text-heading)' }}>{message}</p>
+                <p className="text-[11px] max-w-[200px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                   Switch to Admin mode in the navbar to unlock editing
                 </p>
               </motion.div>

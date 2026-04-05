@@ -67,9 +67,8 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
       exit={{ opacity: 0, x: -20, scale: 0.97 }}
       transition={{ duration: 0.3, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex items-center gap-4 px-4 py-3.5 rounded-xl
-        border border-white/[0.04] hover:border-white/[0.09]
         transition-colors duration-200"
-      style={{ background: 'rgba(255,255,255,0.02)' }}
+      style={{ background: 'var(--hover-overlay)', border: '1px solid var(--border-subtle)' }}
     >
       {/* Category icon */}
       <div className={`
@@ -81,13 +80,13 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
 
       {/* Description + category + date */}
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-semibold text-white truncate leading-tight">
+        <p className="text-[13px] font-semibold truncate leading-tight" style={{ color: 'var(--text-primary)' }}>
           {t.description}
         </p>
         <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-[11px] text-surface-500">{t.category}</span>
-          <span className="w-1 h-1 rounded-full bg-surface-700" />
-          <span className="text-[11px] text-surface-600">{fmtDate(t.date)}</span>
+          <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{t.category}</span>
+          <span className="w-1 h-1 rounded-full" style={{ background: 'var(--border-card)' }} />
+          <span className="text-[11px]" style={{ color: 'var(--text-dim)' }}>{fmtDate(t.date)}</span>
         </div>
       </div>
 
@@ -106,9 +105,9 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
 
       {/* Amount */}
       <p className={`
-        text-[15px] font-extrabold flex-shrink-0 w-24 text-right
-        ${isIncome ? 'text-emerald-400' : 'text-white'}
-      `} style={{ letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
+        text-[15px] font-extrabold flex-shrink-0 min-w-[80px] text-right
+        ${isIncome ? 'text-emerald-400' : ''}
+      `} style={{ letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', color: isIncome ? undefined : 'var(--text-primary)' }}>
         {isIncome ? '+' : '−'}{fmtCurrency(t.amount)}
       </p>
 
@@ -122,21 +121,24 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
             <motion.button
               whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.9 }}
               onClick={() => onEdit(t)}
-              className="p-1.5 rounded-lg hover:bg-indigo-500/15 text-surface-500 hover:text-indigo-400 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-indigo-500/15 transition-colors"
+              style={{ color: 'var(--text-muted)' }}
             >
               <Pencil className="w-3.5 h-3.5" />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.9 }}
               onClick={() => onDelete(t.id)}
-              className="p-1.5 rounded-lg hover:bg-red-500/15 text-surface-500 hover:text-red-400 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-red-500/15 transition-colors"
+              style={{ color: 'var(--text-muted)' }}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </motion.button>
           </>
         ) : (
           <div
-            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-semibold text-surface-600"
+            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-semibold"
+            style={{ color: 'var(--text-dim)' }}
             title="Switch to Admin to edit"
           >
             <Lock className="w-2.5 h-2.5" />
@@ -152,8 +154,8 @@ function TransactionItem({ t, isAdmin, onEdit, onDelete, index }) {
 function DateGroup({ label, total, isIncome }) {
   return (
     <div className="flex items-center justify-between px-1 mb-2 mt-5 first:mt-0">
-      <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-surface-600">{label}</p>
-      <p className={`text-[11px] font-semibold ${isIncome ? 'text-emerald-500' : 'text-surface-500'}`}>
+      <p className="text-[10px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--text-dim)' }}>{label}</p>
+      <p className={`text-[11px] font-semibold ${isIncome ? 'text-emerald-500' : ''}`} style={!isIncome ? { color: 'var(--text-muted)' } : {}}>
         {total > 0 ? '+' : ''}${Math.abs(total).toLocaleString('en-US', { minimumFractionDigits: 0 })}
       </p>
     </div>
@@ -215,17 +217,17 @@ export default function Transactions() {
   const SortIcon  = SORT_OPTIONS.find(s => s.id === sortId)?.icon ?? ArrowDownUp;
 
   return (
-    <div className="space-y-4 max-w-4xl">
+    <div className="space-y-4 max-w-4xl mx-auto">
 
       {/* ── Page header ── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3"
       >
         <div>
-          <h2 className="text-[18px] font-bold text-white tracking-tight">Transactions</h2>
-          <p className="text-[12px] text-surface-500 mt-0.5">
+          <h2 className="text-[18px] font-bold tracking-tight" style={{ color: 'var(--text-heading)' }}>Transactions</h2>
+          <p className="text-[12px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
             {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
           </p>
         </div>
@@ -260,7 +262,7 @@ export default function Transactions() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 }}
-        className="grid grid-cols-3 gap-3"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-3"
       >
         {[
           { label: 'Income',   val: stats.income,   color: 'text-emerald-400', sub: 'bg-emerald-500/10 border-emerald-500/15' },
@@ -269,7 +271,7 @@ export default function Transactions() {
             sub: stats.net >= 0 ? 'bg-indigo-500/10 border-indigo-500/15' : 'bg-red-500/10 border-red-500/15' },
         ].map(({ label, val, color, sub }) => (
           <div key={label} className={`rounded-xl px-4 py-3 border ${sub}`}>
-            <p className="text-[10px] uppercase tracking-widest font-semibold text-surface-500 mb-1">{label}</p>
+            <p className="text-[10px] uppercase tracking-widest font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>{label}</p>
             <p className={`text-[16px] font-extrabold ${color}`} style={{ letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
               {val < 0 ? '−' : val > 0 && label === 'Net' ? '+' : ''}${Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: 0 })}
             </p>
@@ -287,17 +289,17 @@ export default function Transactions() {
         {/* Search */}
         <div className="
           flex-1 flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl
-          border border-white/[0.06] hover:border-white/[0.10]
           focus-within:border-indigo-500/40 focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
           transition-all duration-200
-        " style={{ background: 'rgba(255,255,255,0.03)' }}>
-          <Search className="w-4 h-4 text-surface-500 flex-shrink-0" />
+        " style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-card)' }}>
+          <Search className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or category…"
-            className="bg-transparent text-[13px] text-white placeholder-surface-600 outline-none w-full"
+            className="bg-transparent text-[13px] outline-none w-full"
+            style={{ color: 'var(--input-text)' }}
           />
           <AnimatePresence>
             {search && (
@@ -306,7 +308,8 @@ export default function Transactions() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.7 }}
                 onClick={() => setSearch('')}
-                className="p-0.5 rounded-md hover:bg-white/[0.08] text-surface-500 hover:text-surface-300 transition-colors"
+                className="p-0.5 rounded-md transition-colors"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <X className="w-3.5 h-3.5" />
               </motion.button>
@@ -315,8 +318,8 @@ export default function Transactions() {
         </div>
 
         {/* Filter tabs */}
-        <div className="flex items-center rounded-xl p-1 gap-0.5 border border-white/[0.05]"
-          style={{ background: 'rgba(255,255,255,0.03)' }}>
+        <div className="flex items-center rounded-xl p-1 gap-0.5"
+          style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-subtle)' }}>
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -324,8 +327,9 @@ export default function Transactions() {
               className={`
                 relative px-3.5 py-1.5 rounded-lg text-[12px] font-semibold
                 transition-colors duration-150
-                ${tab === t.id ? 'text-white' : 'text-surface-500 hover:text-surface-300'}
+                ${tab === t.id ? '' : ''}
               `}
+              style={{ color: tab === t.id ? 'var(--text-heading)' : 'var(--text-muted)' }}
             >
               {tab === t.id && (
                 <motion.div
@@ -349,11 +353,10 @@ export default function Transactions() {
             onClick={() => setShowSort((v) => !v)}
             className="
               flex items-center gap-2 px-3.5 py-2.5 rounded-xl
-              border border-white/[0.05] hover:border-white/[0.10]
-              text-[12px] font-semibold text-surface-400 hover:text-surface-200
+              text-[12px] font-semibold
               transition-all duration-200 whitespace-nowrap
             "
-            style={{ background: 'rgba(255,255,255,0.03)' }}
+            style={{ background: 'var(--btn-surface-bg)', border: '1px solid var(--border-subtle)', color: 'var(--btn-surface-text)' }}
           >
             <SortIcon className="w-3.5 h-3.5" />
             {sortLabel}
@@ -367,8 +370,8 @@ export default function Transactions() {
                 exit={{ opacity: 0, y: 6, scale: 0.97 }}
                 transition={{ duration: 0.15 }}
                 className="absolute right-0 top-full mt-1.5 w-44 rounded-xl z-30
-                  border border-white/[0.07] overflow-hidden shadow-2xl"
-                style={{ background: 'rgba(9,14,26,0.97)', backdropFilter: 'blur(24px)' }}
+                  overflow-hidden shadow-2xl"
+                style={{ background: 'var(--bg-modal)', border: '1px solid var(--border-card)', backdropFilter: 'blur(24px)' }}
               >
                 {SORT_OPTIONS.map((opt) => {
                   const Icon = opt.icon;
@@ -378,11 +381,15 @@ export default function Transactions() {
                       onClick={() => { setSortId(opt.id); setShowSort(false); }}
                       className={`
                         w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium
-                        transition-colors border-b border-white/[0.04] last:border-0
+                        transition-colors
                         ${sortId === opt.id
                           ? 'text-indigo-400 bg-indigo-500/[0.08]'
-                          : 'text-surface-400 hover:text-surface-200 hover:bg-white/[0.03]'}
+                          : ''}
                       `}
+                      style={{
+                        borderBottom: '1px solid var(--border-subtle)',
+                        color: sortId !== opt.id ? 'var(--text-muted)' : undefined,
+                      }}
                     >
                       <Icon className="w-3.5 h-3.5" />
                       {opt.label}
@@ -400,11 +407,12 @@ export default function Transactions() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="rounded-2xl border border-white/[0.06] overflow-hidden"
+        className="rounded-2xl overflow-hidden"
         style={{
-          background: 'rgba(15,20,40,0.55)',
+          background: 'var(--bg-card-solid)',
+          border: '1px solid var(--border-card)',
           backdropFilter: 'blur(40px) saturate(1.6)',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.12)',
+          boxShadow: 'var(--card-shadow)',
         }}
       >
         {filtered.length === 0 ? (
@@ -414,11 +422,11 @@ export default function Transactions() {
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-16 px-6 text-center"
           >
-            <div className="w-14 h-14 rounded-2xl bg-surface-800 flex items-center justify-center mb-4">
-              <Search className="w-6 h-6 text-surface-600" />
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--btn-surface-bg)' }}>
+              <Search className="w-6 h-6" style={{ color: 'var(--text-dim)' }} />
             </div>
-            <p className="text-[14px] font-semibold text-white mb-1">No transactions found</p>
-            <p className="text-[12px] text-surface-500">Try different search terms or filters</p>
+            <p className="text-[14px] font-semibold mb-1" style={{ color: 'var(--text-heading)' }}>No transactions found</p>
+            <p className="text-[12px]" style={{ color: 'var(--text-muted)' }}>Try different search terms or filters</p>
           </motion.div>
         ) : (
           <div className="p-4 space-y-1">

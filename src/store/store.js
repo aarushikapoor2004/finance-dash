@@ -20,6 +20,17 @@ const saveState = (key, value) => {
 };
 
 const useStore = create((set, get) => ({
+  // ─── Theme ───
+  theme: loadState('theme', 'dark'),
+  toggleTheme: () => {
+    const next = get().theme === 'dark' ? 'light' : 'dark';
+    set({ theme: next });
+    saveState('theme', next);
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', next === 'dark');
+    }
+  },
+
   // ─── Role management ───
   role: loadState('role', 'admin'),
   isAdmin: () => get().role === 'admin',
@@ -252,9 +263,10 @@ const useStore = create((set, get) => ({
   },
 }));
 
-// Initialize dark class on load
+// Initialize theme class on load
 if (typeof document !== 'undefined') {
-  document.documentElement.classList.add('dark');
+  const savedTheme = loadState('theme', 'dark');
+  document.documentElement.classList.toggle('dark', savedTheme === 'dark');
 }
 
 export default useStore;
