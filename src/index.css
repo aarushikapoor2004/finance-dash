@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -13,53 +14,55 @@
 
   /* ─── Theme Variables (Dark — default) ─── */
   :root {
-    --bg-body: #090e1a;
-    --bg-sidebar: #090e1a;
-    --bg-card: rgba(15, 20, 40, 0.60);
-    --bg-card-solid: rgba(15, 20, 40, 0.55);
+    --bg-body: #080808;
+    --bg-sidebar: #0a0a0a;
+    --bg-card: rgba(14, 14, 14, 0.80);
+    --bg-card-solid: rgba(16, 16, 16, 0.90);
     --bg-surface: rgba(255, 255, 255, 0.03);
     --bg-surface-hover: rgba(255, 255, 255, 0.06);
-    --bg-modal: rgba(9, 14, 26, 0.97);
-    --bg-navbar: rgba(9, 14, 26, 0.85);
-    --bg-tooltip: rgba(9, 14, 26, 0.95);
+    --bg-modal: rgba(10, 10, 10, 0.98);
+    --bg-navbar: rgba(8, 8, 8, 0.90);
+    --bg-tooltip: rgba(10, 10, 10, 0.96);
     --border-subtle: rgba(255, 255, 255, 0.05);
-    --border-card: rgba(255, 255, 255, 0.06);
-    --border-input: rgba(255, 255, 255, 0.07);
+    --border-card: rgba(255, 255, 255, 0.07);
+    --border-input: rgba(255, 255, 255, 0.08);
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     --text-dim: #475569;
     --text-heading: #ffffff;
-    --gradient-orb-1: rgba(99, 102, 241, 0.06);
-    --gradient-orb-2: rgba(139, 92, 246, 0.04);
-    --gradient-orb-3: rgba(16, 185, 129, 0.04);
-    --grid-color: rgba(255, 255, 255, 0.04);
-    --row-hover: rgba(99, 102, 241, 0.03);
+    /* Orbs — accent only, kept subtle */
+    --gradient-orb-1: rgba(99, 102, 241, 0.05);
+    --gradient-orb-2: rgba(139, 92, 246, 0.03);
+    --gradient-orb-3: rgba(16, 185, 129, 0.03);
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --row-hover: rgba(255, 255, 255, 0.03);
     --scrollbar-thumb: rgba(100, 116, 139, 0.15);
     --scrollbar-hover: rgba(100, 116, 139, 0.3);
-    --btn-surface-bg: rgba(255, 255, 255, 0.03);
-    --btn-surface-hover: rgba(255, 255, 255, 0.07);
-    --btn-surface-border: rgba(255, 255, 255, 0.05);
+    --btn-surface-bg: rgba(255, 255, 255, 0.04);
+    --btn-surface-hover: rgba(255, 255, 255, 0.08);
+    --btn-surface-border: rgba(255, 255, 255, 0.06);
     --btn-surface-text: #94a3b8;
     --btn-surface-text-hover: #e2e8f0;
-    --badge-bg: rgba(255, 255, 255, 0.05);
+    --badge-bg: rgba(255, 255, 255, 0.06);
     --badge-text: #94a3b8;
-    --card-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
-    --toast-bg: rgba(9, 14, 26, 0.96);
-    --toast-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+    --toast-bg: rgba(10, 10, 10, 0.97);
+    --toast-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
     --kbd-bg: rgba(255, 255, 255, 0.04);
-    --kbd-border: rgba(255, 255, 255, 0.06);
+    --kbd-border: rgba(255, 255, 255, 0.07);
     --input-text: #ffffff;
     --input-placeholder: #475569;
     --ring-avatar: rgba(255, 255, 255, 0.08);
-    --status-ring: #090e1a;
-    --notif-dot-ring: #090e1a;
+    --status-ring: #080808;
+    --notif-dot-ring: #080808;
+    /* Active pill — accent color is fine here, it's intentional UI chrome */
     --pill-active-bg: linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.10) 100%);
     --pill-active-border: rgba(99,102,241,0.22);
-    --hover-overlay: rgba(255, 255, 255, 0.03);
+    --hover-overlay: rgba(255, 255, 255, 0.02);
     --table-border: rgba(255, 255, 255, 0.04);
-    --icon-income-bg: rgba(34, 197, 94, 0.1);
-    --icon-expense-bg: rgba(239, 68, 68, 0.1);
+    --icon-income-bg: rgba(34, 197, 94, 0.10);
+    --icon-expense-bg: rgba(239, 68, 68, 0.10);
     color-scheme: dark;
   }
 

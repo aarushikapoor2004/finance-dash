@@ -14,8 +14,6 @@ const NAV_ITEMS = [
 ];
 
 const BOTTOM_ITEMS = [
-  { id: 'settings', label: 'Settings', icon: Settings },
-  { id: 'help', label: 'Help & Support', icon: HelpCircle },
 ];
 
 // ─── Tooltip (collapsed state) ──────────────────────────────────────────────
@@ -77,15 +75,6 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
         />
       )}
 
-      {/* Left accent bar */}
-      {isActive && (
-        <motion.div
-          layoutId="sidebar-bar"
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[18px] rounded-r-full bg-indigo-400"
-          transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-        />
-      )}
-
       {/* Icon */}
       <Icon className={`
         relative z-10 w-[18px] h-[18px] flex-shrink-0 transition-colors
@@ -132,7 +121,6 @@ function NavButton({ item, isActive, sidebarOpen, onClick }) {
   );
 }
 
-// ─── Bottom Utility Button ───────────────────────────────────────────────────
 function BottomButton({ item, sidebarOpen }) {
   const Icon = item.icon;
   return (
@@ -195,8 +183,8 @@ function SidebarContent({ sidebarOpen, activePage, setActivePage, toggleSidebar,
               transition={{ duration: 0.18 }}
               className="flex flex-col leading-tight min-w-0"
             >
-              <span className="text-[15px] font-bold tracking-tight" style={{ color: 'var(--text-heading)' }}>Zorvyn</span>
-              <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Finance Suite</span>
+              <span className="text-[15px] font-bold tracking-tight" style={{ color: 'var(--text-heading)' }}>finzo</span>
+              <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Finance dashboard</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -232,19 +220,14 @@ function SidebarContent({ sidebarOpen, activePage, setActivePage, toggleSidebar,
       </nav>
 
       {/* ── Utility Links ── */}
-      <div className="px-3 pb-3 space-y-0.5">
-        {BOTTOM_ITEMS.map((item) => (
-          <BottomButton key={item.id} item={item} sidebarOpen={sidebarOpen} />
-        ))}
-      </div>
 
-      <Divider />
+
 
       {/* ── User Profile + Collapse Toggle ── */}
       <div className="px-3 py-3 flex items-center gap-2.5">
         <div className="relative flex-shrink-0">
           <div className="w-8 h-8 rounded-[9px] flex items-center justify-center bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-[12px] font-bold shadow-md">
-            Z
+            A
           </div>
           <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500"
             style={{ boxShadow: `0 0 0 2px var(--status-ring)` }}
@@ -260,23 +243,20 @@ function SidebarContent({ sidebarOpen, activePage, setActivePage, toggleSidebar,
               transition={{ duration: 0.15 }}
               className="flex-1 min-w-0"
             >
-              <p className="text-[13px] font-semibold truncate leading-tight" style={{ color: 'var(--text-heading)' }}>Teja Reddy</p>
-              <p className="text-[11px] truncate leading-tight" style={{ color: 'var(--text-muted)' }}>Tejareddy@zorvyn.com</p>
+              <p className="text-[13px] font-semibold truncate leading-tight" style={{ color: 'var(--text-heading)' }}>Aarushi kapoor</p>
+              <p className="text-[11px] truncate leading-tight" style={{ color: 'var(--text-muted)' }}>aarushiK250@gmail.com</p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Collapse toggle — only desktop */}
+
+
         <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           onClick={toggleSidebar}
           title={sidebarOpen ? 'Collapse' : 'Expand'}
-          className={`
-            hidden md:flex flex-shrink-0 p-1.5 rounded-lg
-            transition-all duration-200
-            ${!sidebarOpen ? 'mx-auto' : ''}
-          `}
+          className="hidden md:flex items-center justify-center absolute -right-9 top-5 z-50 w-7 h-7 rounded-lg"
           style={{
             background: 'var(--btn-surface-bg)',
             border: '1px solid var(--btn-surface-border)',
@@ -285,11 +265,35 @@ function SidebarContent({ sidebarOpen, activePage, setActivePage, toggleSidebar,
         >
           <motion.div
             animate={{ rotate: sidebarOpen ? 0 : 180 }}
-            transition={{ duration: 0.28 }}
+            transition={{ duration: 0.25 }}
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </motion.div>
         </motion.button>
+
+        {/* <motion.button */}
+        {/*   whileHover={{ scale: 1.1 }} */}
+        {/*   whileTap={{ scale: 0.9 }} */}
+        {/*   onClick={toggleSidebar} */}
+        {/*   title={sidebarOpen ? 'Collapse' : 'Expand'} */}
+        {/*   className={` */}
+        {/*     hidden md:flex flex-shrink-0 -ml-10 -mt-20 p-1.5 rounded-lg */}
+        {/*     transition-all duration-200 */}
+        {/*     ${!sidebarOpen ? 'mx-auto' : ''} */}
+        {/*   `} */}
+        {/*   style={{ */}
+        {/*     background: 'var(--btn-surface-bg)', */}
+        {/*     border: '1px solid var(--btn-surface-border)', */}
+        {/*     color: 'var(--text-muted)', */}
+        {/*   }} */}
+        {/* > */}
+        {/*   <motion.div */}
+        {/*     animate={{ rotate: sidebarOpen ? 0 : 180 }} */}
+        {/*     transition={{ duration: 0.28 }} */}
+        {/*   > */}
+        {/*     <ChevronLeft className="w-3.5 h-3.5" /> */}
+        {/*   </motion.div> */}
+        {/* </motion.button> */}
       </div>
     </>
   );
