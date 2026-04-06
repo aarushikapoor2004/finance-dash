@@ -1,5 +1,9 @@
 # Finance Dashboard — Zorvyn
 
+
+https://github.com/user-attachments/assets/7312e739-42e4-44bf-83d8-ac022a8d3f56
+
+
 A personal finance tracking web application built with React 19, Zustand, Recharts, and Framer Motion. The project focuses on clean UI, real-time state management, and interactive data visualization.
 
 ---
