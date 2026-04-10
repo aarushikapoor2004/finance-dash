@@ -1,4 +1,4 @@
-# Finance Dashboard — Zorvyn
+# Finance Dashboard 
 
 
 https://github.com/user-attachments/assets/7312e739-42e4-44bf-83d8-ac022a8d3f56
@@ -31,7 +31,7 @@ A personal finance tracking web application built with React 19, Zustand, Rechar
 
 ## Overview
 
-Zorvyn is a single-page personal finance dashboard that allows users to track income and expenses, visualize spending patterns, and get smart financial insights — all without a backend. All data is managed client-side using Zustand with localStorage persistence.
+Finzo is a single-page personal finance dashboard that allows users to track income and expenses, visualize spending patterns, and get smart financial insights — all without a backend. All data is managed client-side using Zustand with localStorage persistence.
 
 The application supports two user roles — **Admin** (full CRUD access) and **Viewer** (read-only) — making it suitable as a demonstration of role-based access control in a frontend-only app.
 
